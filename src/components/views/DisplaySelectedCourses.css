@@ -1,0 +1,196 @@
+:root {
+  /* Primary Colours */
+  --primary-dark: #007367;
+  --primary-light: #F4E4C9;
+
+  /* Secondary Colours */
+  --secondary-dark: #004740;
+  --secondary-light: #8BCBB7;
+  --secondary-accent1: #A58255;
+  --secondary-accent2: #CCBA8D;
+
+  /* Tertiary Colours */
+  --tertiary-1: #DD736E;
+  --tertiary-2: #E0B541;
+  --tertiary-3: #5E95CD;
+}
+
+/* Overall container */
+.display-courses-container {
+  padding: 0;
+  color: #333;
+}
+
+/* Transition container for sliding effect */
+.course-transition-container {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Slide animations */
+.course-transition-container.slide-left {
+  transform: translateX(-100%);
+}
+.course-transition-container.slide-right {
+  transform: translateX(100%);
+}
+
+/* Courses Screen */
+.courses-screen {
+  width: 100%;
+  text-align: center;
+}
+
+.search-container {
+  margin-bottom: 20px;
+}
+
+.search-input {
+  width: 90%;
+  max-width: 300px;
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+/* Grid layout for courses */
+.courses-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.course-card {
+  flex: 0 0 300px;
+  max-width: 300px;
+}
+
+/* Details Screen */
+.details-screen {
+  width: 100%;
+  text-align: center;
+}
+
+.details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.details-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.detail-card {
+  flex: 0 0 300px;
+  max-width: 300px;
+}
+
+/* Fixed-size 3D Card Styling */
+.card-3d-block {
+  width: 300px;
+  padding: 20px;
+  background-image: linear-gradient(135deg, var(--primary-dark), var(--secondary-light));
+  border-radius: 15px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+/* Truncate text to maintain card size */
+.course-card h5,
+.card-3d-block h5,
+.course-name,
+.course-info {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Hover effect for card */
+.card-3d-block:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Course Title and Info Styling */
+.course-name {
+  font-size: 22px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+.course-info {
+  font-size: 16px;
+  margin: 4px 0;
+}
+
+/* Dropdown Styling */
+.interest-dropdown-before,
+.interest-dropdown-after {
+  color: #fff;
+  margin-top: 12px;
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid var(--secondary-accent2);
+  outline: none;
+  width: 100%;
+  cursor: pointer;
+}
+.interest-dropdown-before {
+  background-image: linear-gradient(45deg, var(--primary-dark), var(--secondary-dark));
+}
+.interest-dropdown-after {
+  background-image: linear-gradient(45deg, #6625ea, var(--tertiary-3));
+}
+.card-3d.selected .card-3d-block {
+  background-image: linear-gradient(135deg, #6625ea, var(--tertiary-3));
+}
+
+/* Cards Wrapper */
+.courses-grid,
+.details-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Responsive adjustments for mobile devices */
+@media (max-width: 600px) {
+  .course-card,
+  .detail-card {
+    flex: 0 0 90%;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .card-3d-block {
+    width: 90%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  .course-name {
+    font-size: 20px;
+  }
+  .course-info {
+    font-size: 14px;
+  }
+  .interest-dropdown-before,
+  .interest-dropdown-after {
+    font-size: 14px;
+    padding: 6px;
+  }
+}

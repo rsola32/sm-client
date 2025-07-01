@@ -1,0 +1,66 @@
+/* Fixed container width to maintain consistent layout */
+.index-chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    text-align: center;
+    padding: 20px;
+    width: 250px; /* Matches the PieChart width */
+    margin: auto;
+  }
+  
+  /* Title container with fixed width and hidden overflow */
+  .index-chart-title-container {
+    width: 250px;
+    margin-bottom: 5px;
+    overflow: hidden;
+  }
+  
+  /* Title element uses its full intrinsic width; centered when not scrolling */
+  .index-chart-title {
+    white-space: nowrap;
+    display: inline-block;
+    min-width: max-content;
+    text-align: center;
+  }
+  
+  /* When hovering over the title container and if overflowing, start marquee animation */
+  .index-chart-title-container:hover .index-chart-title.scrollable {
+    animation: marquee 10s linear infinite;
+    text-align: left;
+  }
+  
+  /* Keyframes for continuous leftward scroll */
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(var(--scroll-distance));
+    }
+  }
+  
+  /* "View Details" button styling */
+  .view-details-btn {
+    background-color: #007367;
+    margin-top: 5px;
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .view-details-btn:hover {
+    background-color: #004740;
+  }
+  
+  /* Detail text styling (if needed) */
+  .index-chart-detail {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  

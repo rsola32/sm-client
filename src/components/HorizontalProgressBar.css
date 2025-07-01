@@ -1,0 +1,136 @@
+.top-space {
+  height: 30px;
+}
+
+/* Container: use a percentage width with a max-width for larger screens.
+   Also define a custom property for the circle size. */
+.hp-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 16px;
+  font-family: Arial, sans-serif;
+  --circle-size: 40px;
+}
+
+/* Wrapper to position the progress bar */
+.hp-bar-wrapper {
+  position: relative;
+  height: 60px;
+}
+
+/* Progress bar container uses a CSS variable for the progress width */
+.hp-progress-bar {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 0; /* The actual line is drawn via pseudo-elements */
+}
+
+/* Background line from the first circle's center to the last circle's center */
+.hp-progress-bar::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--circle-size) / 2);
+  right: calc(var(--circle-size) / 2);
+  top: 50%;
+  height: 4px;
+  background-color: #e0e0e0;
+  transform: translateY(-50%);
+  border-radius: 2px;
+}
+
+/* Filled portion of the progress line.
+   The width is calculated so that when --hp-progress-percent is 100, it equals (100% - var(--circle-size)). */
+.hp-progress-bar::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--circle-size) / 2);
+  top: 50%;
+  height: 4px;
+  width: calc((var(--hp-progress-percent) * (100% - var(--circle-size))) / 100);
+  background: #004740;
+  transform: translateY(-50%);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+/* Step wrapper: holds the circle and its label */
+.hp-step-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+  width: var(--circle-size);
+}
+
+/* Circle for each step */
+.hp-circle {
+  width: var(--circle-size);
+  height: var(--circle-size);
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+/* Active or completed circle */
+.hp-circle.hp-active {
+  background: #004740;
+  border-color: #004740;
+  color: #fff;
+}
+
+/* Step number and checkmark */
+.hp-step-num {
+  font-size: 18px;
+  color: #e0e0e0;
+}
+.hp-checkmark {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* Label for each step */
+.hp-label {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #4a154b;
+  text-align: center;
+  width: 80px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .hp-container {
+    margin: 20px auto;
+    padding: 0 8px;
+    --circle-size: 32px;
+  }
+  .hp-step-wrapper {
+    width: var(--circle-size);
+  }
+  .hp-circle {
+    width: var(--circle-size);
+    height: var(--circle-size);
+  }
+  .hp-step-num {
+    font-size: 16px;
+  }
+  .hp-checkmark {
+    font-size: 18px;
+  }
+  .hp-label {
+    font-size: 12px;
+    width: 70px;
+  }
+}

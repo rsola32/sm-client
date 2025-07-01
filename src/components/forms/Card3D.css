@@ -1,0 +1,161 @@
+:root {
+  /* Primary Colours */
+  --primary-dark: #007367;
+  --primary-light: #F4E4C9;
+
+  /* Secondary Colours */
+  --secondary-dark: #004740;
+  --secondary-light: #8BCBB7;
+  --secondary-accent1: #A58255;
+  --secondary-accent2: #CCBA8D;
+
+  /* Tertiary Colours */
+  --tertiary-1: #DD736E;
+  --tertiary-2: #E0B541;
+  --tertiary-3: #5E95CD;
+}
+
+/* 3D Card */
+.card-3d {
+  color: #fff;
+  width: 230px;
+  height: 200px;
+  padding: 20px;
+  background-image: linear-gradient(135deg, var(--primary-dark), var(--secondary-light));
+  border-radius: 15px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin: 10px;
+}
+
+/* Cards Wrapper: Use flex-wrap so cards stack on smaller screens */
+.cards-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+/* Hover effect for card */
+.card-3d:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Text Animation for scrolling content */
+.text-inner-div {
+  width: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.text-inner {
+  display: inline-block;
+  margin: 0;
+}
+
+.card-3d:hover .text-inner {
+  animation: text-scroll 5s linear infinite;
+}
+
+@keyframes text-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Course Title and Info */
+.course-name {
+  font-size: 22px;
+  margin-bottom: 0;
+  font-weight: 600;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.course-info {
+  font-size: 16px;
+  margin: 4px 0;
+}
+
+/* Dropdowns */
+.interest-dropdown-before,
+.interest-dropdown-after {
+  color: #fff;
+  margin-top: 12px;
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid var(--secondary-accent2);
+  outline: none;
+  width: 100%;
+  cursor: pointer;
+}
+
+.interest-dropdown-before {
+  background-image: linear-gradient(45deg, var(--primary-dark), var(--secondary-dark));
+}
+
+.interest-dropdown-after {
+  background-image: linear-gradient(45deg, #6625ea, var(--tertiary-3));
+}
+
+.card-3d.selected {
+  background-image: linear-gradient(135deg, #6625ea, var(--tertiary-3));
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .card-3d {
+    width: 90%;
+    max-width: 300px;
+    height: auto;
+    padding: 15px;
+    margin: 10px auto;
+  }
+  .course-name {
+    font-size: 20px;
+  }
+  .course-info {
+    font-size: 14px;
+  }
+  .interest-dropdown-before,
+  .interest-dropdown-after {
+    font-size: 14px;
+    padding: 6px;
+  }
+}
+
+/* Search input styling */
+.search-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  width: 90%;
+  max-width: 300px;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 25px;
+  border: 1px solid var(--secondary-accent2);
+  outline: none;
+  background-color: var(--primary-light);
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: var(--secondary-dark);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Submit container styling */
+.submit-container {
+  text-align: center;
+  margin-top: 20px;
+}

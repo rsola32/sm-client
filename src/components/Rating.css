@@ -1,0 +1,44 @@
+/* Floating submit button container: fixed at bottom center */
+.floating-submit-container {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+  }
+  
+  /* Floating submit button styling with transparent background that becomes opaque on hover */
+  .floating-submit-button {
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 4px;
+    background-color: rgba(0, 123, 255, 0.5); /* Semi-transparent blue */
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+    opacity: 0.8;
+  }
+  
+  /* Fully opaque and enhanced 3D look on hover */
+  .floating-submit-button:hover {
+    background-color: rgba(0, 123, 255, 1);
+    transform: scale(1.05);
+    box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+    opacity: 1;
+  }
+  
+  /* Responsive adjustments for mobile screens */
+  @media (max-width: 600px) {
+    .floating-submit-button {
+      padding: 10px 20px;
+      font-size: 14px;
+    }
+  }
+  
+  /* Mobile card gradient styling for a subtle, elegant look */
+@media (max-width: 600px) {
+  .mobile-card {
+    background: linear-gradient(135deg, #97f7ef, #c0f3ed);
+  }
+}

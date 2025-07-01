@@ -1,0 +1,61 @@
+.gitam-button{
+    background-image: linear-gradient(to right,#004740,#007367);
+    color:#fff;
+    }
+
+    .gitam-button:hover {
+        /* Slight upward translation and scale to give a floating effect */
+        transform: translateY(-3px) scale(1.03);
+        /* Deeper shadow on hover */
+        box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+      }
+
+    .gitam-form{
+        width: 100%;
+        background-image: linear-gradient(to right,#8BCBB7,#bbe6d9);
+        /* background: #8BCBB7; */
+        transform-style: preserve-3d;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+
+    .gitam-light-green{
+        background: #8BCBB7;
+    }
+
+    .gitam-dark-green{
+        background: #004740;
+    }
+
+    .gitam-green{
+        background: #007367;
+    }
+
+    .gitam-brown{
+        background: #F4E4C9;
+    }
+
+    .gitam-dark-brown{
+        background: #A58255;
+    }
+
+    .gitam-light-brown{
+        background: #CCBA8D;
+    }
+
+    .gitam-red{
+        background: #DD736E;
+    }
+
+    .gitam-yellow{
+        background: #E0B541;
+    }
+
+    .gitam-blue{
+        background: #5E95CD;
+    }
+
+    .gitam-green-gradient1{
+        background-image: linear-gradient(to right,#004740,#007367);
+    }
+

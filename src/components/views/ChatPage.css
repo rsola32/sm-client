@@ -1,0 +1,69 @@
+/* Container */
+.chat-container {
+    max-width: 1200px;
+    width:1200px;
+    height: 80vh;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    background-color: #f0f0f0;
+  }
+  
+  /* Header */
+  .chat-header {
+    background-color: #075E54; /* WhatsApp-ish green */
+    color: #fff;
+    padding: 10px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  
+  /* Chat body (where messages appear) */
+  .chat-body {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    background-color: #e5ddd5; /* slightly tinted background */
+  }
+  
+  /* Chat footer with input */
+  .chat-footer {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    background-color: #f8f8f8;
+  }
+  
+  /* Message bubbles */
+  .message-bubble {
+    padding: 10px 15px;
+    margin: 5px 0;
+    border-radius: 15px;
+    display: inline-block;
+    max-width: 75%;
+    clear: both;
+  }
+  
+  /* User bubble (align to right) */
+  .user-bubble {
+    background-color: #DCF8C6; /* light green bubble */
+    float: right;
+    text-align: right;
+  }
+  
+  /* Bot bubble (align to left) */
+  .bot-bubble {
+    background-color: #fff; /* white bubble */
+    float: left;
+    text-align: left;
+  }
+
+  .thinking-bubble {
+    background-color: #7373d6; /* blue bubble */
+    float: left;
+    text-align: left;
+  }
+
+  

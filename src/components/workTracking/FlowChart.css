@@ -1,0 +1,136 @@
+/* Overall container: auto-height so content is never hidden */
+.flowchart-container {
+    background: #f5f7fa;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    max-width: 800px;
+    margin: 20px auto;
+  }
+  
+  /* Filter container styling */
+  .filter-container {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  .filter-container label {
+    font-weight: 600;
+    margin-right: 10px;
+  }
+  
+  .filter-container select {
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  /* Legend styling */
+  .legend {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  
+  .legend-item {
+    margin: 0 10px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .legend-color {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    border: 2px solid;
+    border-radius: 50%;
+  }
+  
+  /* Each node container */
+  .flowchart-node {
+    margin: 12px 0;
+    position: relative;
+  }
+  
+  /* Node title styling */
+  .flowchart-node .node-title {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: #fff;
+    padding: 14px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    user-select: none;
+    margin: 8px 0;
+    transition: background 0.3s ease, transform 0.3s ease;
+    font-weight: 600;
+    font-size: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  }
+  
+  .flowchart-node .node-title:hover {
+    background: linear-gradient(135deg, #5c0eb5, #1e63d6);
+    transform: translateY(-3px);
+  }
+  
+  /* Node content container: collapsible area with smooth transition */
+  .flowchart-node .node-content {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.5s ease, opacity 0.5s ease;
+    padding-left: 30px;
+    border-left: 3px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 12px;
+  }
+  
+  .flowchart-node .node-content.expanded {
+    max-height: none;  /* Let it expand naturally */
+    opacity: 1;
+  }
+  
+  /* Node description styling: distinct elegant card */
+  .node-description {
+    background: #e8f0fe;
+    border: 2px solid #a3bffa;
+    padding: 14px 20px;
+    margin: 8px 0;
+    font-size: 14px;
+    color: #333;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    font-style: italic;
+  }
+  
+  /* Features list styling */
+  .node-features {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+  }
+  
+  .feature-item {
+    background: #ffffff;
+    padding: 10px 14px;
+    margin: 6px 0;
+    border-left: 5px solid;  /* Color set inline */
+    border-radius: 4px;
+    font-size: 13px;
+    color: #444;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+  }
+  
+  .feature-item:hover {
+    transform: translateX(5px);
+  }
+  
+  /* Styling for nested child nodes */
+  .node-children {
+    margin-top: 10px;
+  }
+  

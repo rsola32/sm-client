@@ -1,0 +1,43 @@
+.report-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 20px;
+  margin-top: 80px; /* Space below navbar */
+}
+
+/* Medium screens */
+@media (max-width: 1024px) {
+  .report-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Smaller screens */
+@media (max-width: 768px) {
+  .report-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile screens */
+@media (max-width: 480px) {
+  .report-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Card effect for each IndexChart component */
+.index-chart-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+/* Hover effect to make the card appear clickable */
+.index-chart-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
