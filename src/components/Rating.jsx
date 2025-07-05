@@ -5,8 +5,14 @@ import './GitamBrand.css';
 import HorizontalProgressBar from './HorizontalProgressBar';
 import DescriptionPanel from './DescriptionPanel';
 import './Rating.css';
+import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+import DisplaySelectedCourses from './views/DisplaySelectedCourses';
+
 
 export default function Rating({ choosenCourse, choosenSkillType }) {
+  const navigate = useNavigate();
+
   const [selectedCourse, setSelectedCourse] = useState(choosenCourse.course_name);
   const [selectedSkillType, setSelectedSkillType] = useState(choosenSkillType);
   const [selectedSkill, setSelectedSkill] = useState('');
@@ -16,44 +22,52 @@ export default function Rating({ choosenCourse, choosenSkillType }) {
   const [editedfacultySubskillData, setEditedfacultySubskillData] = useState([]);
   const [changedRatings, setChangedRatings] = useState({});
   const [empID, setEmpID] = useState('');
+  const [screen, setScreen] = useState('table');
+  const [animation, setAnimation] = useState('none');
+  
 
   const initialFamiliaritiesRef = useRef({});
 
   const getCookie = (name) => {
-    const value = '; ' + document.cookie;
-    const parts = value.split('; ' + name + '=');
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
     return parts.length === 2 ? parts.pop().split(';').shift() : null;
   };
-  const token = getCookie("token");
-  /*if (token) {
-    try {
-      const decoded = jwtDecode(token);
-      console.log("Decoded token, employee_id:", decoded);
-      setEmpID(decoded.employee_id);
-    } catch (err) {
-      console.error("Error decoding token:", err);
-    }
-  }
-  else {
-      console.warn("No token found in cookies.");
-      navigate('/login');
-  }*/
-  const decoded = token ? { employee_id: '700614' } : { employee_id: '' };
-  //setEmpID(decoded.employee_id);
 
+  const token = getCookie("token");
+  //const decoded = jwtDecode(token);
   useEffect(() => {
-    fetch(`http://localhost:3000/api/faculty-subskill-mapping?employeeID=${decoded.employee_id}`)
+      if (token) {
+        try {
+          const decoded = jwtDecode(token);
+          console.log("Decoded token, employee_id:", decoded);
+          setEmpID(decoded.employee_id);
+        } catch (err) {
+          console.error("Error decoding token:", err);
+        }
+      } else {
+        console.warn("No token found in cookies.");
+        navigate('/login');
+      }
+  }, [navigate]);
+ 
+  useEffect(() => {
+    if(empID === '') return;
+    console.log("Fetching faculty-subskill-mapping:",empID)
+    fetch(`http://localhost:3000/api/faculty-subskill-mapping?employeeID=${empID}`)
       .then(res => res.json())
       .then(data => setFacultySubskillData(data))
       .catch(error => console.error('Error fetching facultySubskillData:', error));
-  }, [token]);
+  }, [empID]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/api/familiarity?employee_id=${decoded.employee_id}`)
+    if(empID === '') return; // Prevent fetching if empID is not set
+    console.log("Fetching familiarity:",empID)
+    fetch(`http://localhost:3000/api/familiarity?employeeID=${empID}`)
       .then(res => res.json())
       .then(data => setFacultyRatingData(data))
       .catch(error => console.error('Error fetching facultyRating:', error));
-  }, [token]);
+  }, [empID]);
 
   useEffect(() => {
     if (facultySubskillData.length > 0) {
@@ -61,8 +75,9 @@ export default function Rating({ choosenCourse, choosenSkillType }) {
         const ratingEntry = facultyRating.find(
           rate => rate.subskill_id === item.subskill_id && rate.employee_id === item.employee_id
         );
-        const familiarity = ratingEntry && ratingEntry.familiarity !== 'NA'
-            ? ratingEntry.familiarity : 'NA';
+        const familiarity = ratingEntry ? ratingEntry.familiarity : 'NA';
+        //const familiarity = ratingEntry && ratingEntry.familiarity !== 'NA'
+        //    ? ratingEntry.familiarity : 'NA';
         return { ...item, familiarity };
       });
       setEditedfacultySubskillData(updatedData);
@@ -80,7 +95,7 @@ export default function Rating({ choosenCourse, choosenSkillType }) {
   const handleFamiliarityCycle = (subskillName) => {
     const updatedData = editedfacultySubskillData.map(item => {
       if (item.subskill_name === subskillName) {
-        let newFamiliarity;
+        let newFamiliarity = 'No';
         if (item.familiarity === 'NA') {
           newFamiliarity = 'Yes';          
         } else if (item.familiarity === 'Yes') {
@@ -88,17 +103,21 @@ export default function Rating({ choosenCourse, choosenSkillType }) {
         } else {
           newFamiliarity = 'NA';          
         }
+        //console.log("Changing familiarity:",item.familiarity,newFamiliarity)
 
         const ratingIndex = facultyRating.findIndex(
           rate => rate.subskill_id === item.subskill_id && rate.employee_id === item.employee_id
         );
+        //console.log("Rating Index:",ratingIndex)
         let updatedFacultyRating = [...facultyRating];
-        if (ratingIndex !== '-1') {
+        if (ratingIndex !== -1) {
+          console.log("update:",item.subskill_id,",", newFamiliarity)
           updatedFacultyRating[ratingIndex] = {
             ...updatedFacultyRating[ratingIndex],
             familiarity: newFamiliarity
           };
         } else {
+          //console.log("append:",item.subskill_id,",", newFamiliarity)
           updatedFacultyRating.push({
             //marking_id: item.marking_id,
             subskill_id: item.subskill_id,
@@ -174,9 +193,23 @@ export default function Rating({ choosenCourse, choosenSkillType }) {
       .catch(error => console.error('Error posting rating data:', error));
   };
 
-  const courses = [...new Set(facultySubskillData.map(item => item.course_name))];
-  const skillTypes = [...new Set(facultySubskillData.map(item => item.skill_type))];
-  const skills = [...new Set(facultySubskillData.map(item => item.skill_name))];
+  const handleBackClick = () => {
+    setAnimation('slide-right');
+    setTimeout(() => {
+      //console.log("Back Button Clicked")
+      setScreen('details');
+      window.location.href = '/rating/add';
+      //DisplaySelectedCourses()
+      //
+      //setAnimation('none');
+    }, 300);
+  };
+
+  const courses = [...new Set(editedfacultySubskillData.map(item => item.course_name))];
+  const skillTypes = [...new Set(editedfacultySubskillData.map(item => item.skill_type))];
+  const skills = [...new Set(editedfacultySubskillData.map(item => 
+    //item.skill_type === "All Skill Types" ? setSelectedSkillType('') :
+    item.skill_type === selectedSkillType && item.course_name === selectedCourse ? item.skill_name : null))].filter(Boolean)
 
   //editedfacultySubskillData
   const filteredfacultySubskillData = editedfacultySubskillData.filter(item =>
@@ -207,17 +240,12 @@ export default function Rating({ choosenCourse, choosenSkillType }) {
 
   return (
     <>
-      <HorizontalProgressBar
-        currentStep={3}
-        totalSteps={3}
-        stepLabels={["Faculty Profile", "Select Course", "Course Skill Rating"]}
-      />
-
       <DescriptionPanel
         heading="What is this page about (Rating.jsx)?"
         body="This page allows you to manage and track your selected courses. You can view course details, skill requirements, and rating information all in one place."
         defaultExpanded={true}
       />
+      <button className="btn btn-outline-primary" onClick={handleBackClick}>Back</button>
 
       <h3 className="mt-3">Mark the Familiarity</h3>
       <div className="container my-3">
@@ -233,7 +261,7 @@ export default function Rating({ choosenCourse, choosenSkillType }) {
                   value={selectedCourse}
                   onChange={e => setSelectedCourse(e.target.value)}
                 >
-                  <option value="">All Courses</option>
+                  {/* <option value="">All Courses</option>*/}
                   {courses.map((course, idx) => (
                     <option key={idx} value={course}>{course}</option>
                   ))}
@@ -259,7 +287,7 @@ export default function Rating({ choosenCourse, choosenSkillType }) {
                   id="skillSelect"
                   className="form-select"
                   value={selectedSkill}
-                  onChange={e => setSelectedSkill(e.target.value)}
+                  onChange={ e => setSelectedSkill(e.target.value)}
                 >
                   <option value="">All Skills</option>
                   {skills.map((skill, idx) => (
@@ -280,7 +308,7 @@ export default function Rating({ choosenCourse, choosenSkillType }) {
         <div className="d-none d-md-block">
           <div className="card shadow-sm rating-table">
             <div className="card-header bg-success text-white">
-              <h4 className="mb-0">Skill Matrix</h4>
+              <h4 className="mb-0">Skill Matrix : {empID} </h4>
             </div>
             <div className="card-body p-0">
               <div className="table-responsive">
@@ -325,7 +353,7 @@ export default function Rating({ choosenCourse, choosenSkillType }) {
                       ))
                     ) : (
                       <tr>
-                        <td colSpan="6" className="text-center">No facultySubskillData available.</td>
+                        <td colSpan="6" className="text-center">No facultySubskillData available (or) course, skill type, skill filters not selected completely.</td>
                       </tr>
                     )}
                   </tbody>
@@ -334,7 +362,7 @@ export default function Rating({ choosenCourse, choosenSkillType }) {
             </div>
             <div className="card-footer text-end" ref={cardFooterRef}>
               <button className="btn btn-primary" onClick={handleSubmit}>Submit</button>
-            </div>
+            </div>          
           </div>
         </div>
 
@@ -370,7 +398,7 @@ export default function Rating({ choosenCourse, choosenSkillType }) {
       </div>
     ))
   ) : (
-    <div className="text-center">No facultySubskillData available.</div>
+    <div className="text-center">No facultySubskillData available or course, skill type, skill filters not selected.</div>
   )}
 </div>
 
