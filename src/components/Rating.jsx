@@ -197,11 +197,10 @@ export default function Rating({ choosenCourse, choosenSkillType }) {
     setAnimation('slide-right');
     setTimeout(() => {
       //console.log("Back Button Clicked")
-      setScreen('details');
       window.location.href = '/rating/add';
-      //DisplaySelectedCourses()
-      //
-      //setAnimation('none');
+      setScreen('details');
+      handleCourseClick(selectedCourse);
+      
     }, 300);
   };
 
@@ -240,11 +239,17 @@ export default function Rating({ choosenCourse, choosenSkillType }) {
 
   return (
     <>
+      <HorizontalProgressBar 
+      currentStep={4} 
+      totalSteps={4} 
+      stepLabels={["Authentication", "Select Course", "Select SkillType", "Familiairity Marking"]} 
+      />
       <DescriptionPanel
-        heading="What is this page about (Rating.jsx)?"
-        body="This page allows you to manage and track your selected courses. You can view course details, skill requirements, and rating information all in one place."
+        heading="What is this page about?"
+        body="This page allows you to mark/change your familiarity with subskills related to the courses you are associated with. You can select a course, skill type, and skill to view and update your familiarity status."
         defaultExpanded={true}
       />
+      
       <button className="btn btn-outline-primary" onClick={handleBackClick}>Back</button>
 
       <h3 className="mt-3">Mark the Familiarity</h3>

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './GitamBrand.css'
 import { useNavigate } from 'react-router-dom';
+import Navigation from './Navigation';
+
 
 export default function Login() {
   const [employeeId, setEmployeeId] = useState('');
@@ -29,9 +31,12 @@ export default function Login() {
         });
         // Optionally, after login, redirect the user
         setTimeout(() => {
+          console.log('Entering home page');
           //setCookie('token',employeeId);
-          window.location.href = '/rating/add';
-          // navigate('/rating/add'); // or any protected route
+          //window.location.href = '/rating/add';
+          navigate('/rating/add'); // or any protected route
+          //window.location.href = '/home'; // Redirect to home or any other page
+          //navigate('/home'); // Redirect to home or any other page
         }, 1000);
       } else {
         const errorData = await response.json();

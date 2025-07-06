@@ -38,13 +38,14 @@ function App() {
   return (
     <>
       <Router>
-        <Navigation />
+        {/* <Navigation /> */}
 
         {/* Define the route pages here */}
         <Routes>
 
           {/* HomePage Route */}
           <Route path="/" element={<Login />} />
+          <Route path="/home" element={<Navigation/>} />
 
           {/* Campus Routes */}
           <Route path="/campus/add" element={<WorkInProgress />} />

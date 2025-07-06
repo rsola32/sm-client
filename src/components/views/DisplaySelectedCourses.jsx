@@ -19,6 +19,8 @@ export default function DisplaySelectedCourses() {
   const [animation, setAnimation] = useState('none');
   const [empID, setEmpID] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [courseProgresses, setCourseProgresses] = useState({});
+  const [skillTypeProgresses, setSkillTypeProgresses] = useState({});
 
   // Helper: retrieve a cookie by name
   const getCookie = (name) => {
@@ -63,7 +65,9 @@ export default function DisplaySelectedCourses() {
         credentials: 'include'
       })
         .then((res) => res.json())
-        .then((data) => setDetails(data))
+        .then((data) => { setDetails(data)
+          console.log("Skill types fetched:", data);
+        }) 
         .catch((error) => console.error('Error fetching skill types:', error));
     }
   }, [empID]);
@@ -104,6 +108,69 @@ export default function DisplaySelectedCourses() {
     );
   });
 
+  useEffect(() => {
+    if (empID && courses.length > 0) {
+      const fetchProgresses = async () => {
+        const progresses = {};
+        const typeProgresses = {};
+        const skillTypes = [ 'Preskill', 'Tech/Core', 'Tool', 'Applied', 'Project' ];
+        await Promise.all(
+          filteredCourses.map(async (course) => {
+            try {
+              const res = await fetch(
+                `http://localhost:3000/api/subskill-count?employeeID=${empID}&courseID=${course.course_id}`,
+                { credentials: 'include' }
+              );
+              const data = await res.json();
+              if (data) {
+                const totalSkills = data.yes + data.no + data.na;
+                const markedSkills = data.yes + data.no;
+                progresses[course.course_id] =
+                  totalSkills > 0 ? Math.round((markedSkills / totalSkills) * 100) : 0;
+              } else {
+                progresses[course.course_id] = 0;
+              }
+            } catch (error) {
+              progresses[course.course_id] = 0;
+            }
+            if (empID && course.course_id) {
+              try {
+                const res = await fetch(
+                  `http://localhost:3000/api/subskill-count-skilltype?employeeID=${empID}&courseID=${course.course_id}`,
+                  { credentials: 'include' }
+                );
+                const data = await res.json(); 
+                console.log("Skill type progress data:", data, data['Preskill'], data['Tech/Core'], data['Tool'], data['Applied'], data['Project']);
+                console.log("Skill types:", skillTypes);
+                //if (Array.isArray(data)) {
+                  // data.forEach((item) => {
+                  skillTypes.forEach((skillType) => {                  
+                    const item = data[skillType];
+                    console.log("Item:", item);
+                    if (item) {  
+                      const total = item.yes + item.no + item.na;
+                      const marked = item.yes + item.no;
+                      if (!typeProgresses[course.course_id]) typeProgresses[course.course_id] = {};
+                        typeProgresses[course.course_id][item.skill_type] =
+                      total > 0 ? Math.round((marked / total) * 100) : 0;
+                    }
+                  })                
+              } catch (error) {
+                // ignore skill type progress error for this course
+              }
+              
+            }
+          })
+        );
+        setCourseProgresses(progresses);
+        setSkillTypeProgresses(typeProgresses);
+        //console.log("Course progresses:", progresses);
+        console.log("typeProgresses::",typeProgresses);
+      };
+      fetchProgresses();
+    }
+  }, [empID, courses]);
+
   return (
     <div className="display-courses-container">
 
@@ -111,27 +178,22 @@ export default function DisplaySelectedCourses() {
         {screen === 'courses' && (
           <div>
             <HorizontalProgressBar 
-        currentStep={3} 
-        totalSteps={3} 
-        stepLabels={["Faculty Profile", "Select Course", "Course Skill Rating"]} 
+        currentStep={2} 
+        totalSteps={4} 
+        stepLabels={["Authentication", "Select Course", "Select SkillType","Familiarity Marking"]} 
       />
 
       <DescriptionPanel
         heading="What is this page about?"
-        body="This page allows you to manage and track your selected courses. You can view course details, skill requirements, and rating information all in one place."
+        body="This page displays all courses you are associated.
+        You can select a course which will show associated 
+        skill types of defined skills & subskills."
         defaultExpanded={true}
       />
           <div className="courses-screen">
             <h2 className="mb-4">Dashboard</h2>
-            <div className="search-container">
-              <input
-                type="text"
-                placeholder="Search by course name or ID..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="search-input"
-              />
-            </div>
+                  
+                </div>
             <div className="courses-grid">
               {filteredCourses.map((course) => (
                 <div
@@ -142,28 +204,31 @@ export default function DisplaySelectedCourses() {
                   <div className="card-3d-block">
                     <h5>{course.course_name}</h5>
                     <p>Course ID: {course.course_id}</p>
-                    <ProgressBar now={Math.floor(Math.random() * 100)} />
+                    <ProgressBar
+                      now={ courseProgresses[course.course_id] || 0}
+                      label={`${ courseProgresses[course.course_id] || 0}%`}
+                      style={{ marginTop: '30px' }}
+                    />
                   </div>
                 </div>
               ))}
             </div>
-          </div>
           </div>
         )}
 
         {screen === 'details' && (
           <div>
           <HorizontalProgressBar 
-      currentStep={3} 
-      totalSteps={3} 
-      stepLabels={["Faculty Profile", "Select Course", "Course Skill Rating"]} 
-    />
+            currentStep={3} 
+            totalSteps={4} 
+            stepLabels={["Authentication", "Select Course", "Select SkillType", "Familiairity Marking"]} 
+          />
 
-    <DescriptionPanel
-      heading="What is this page about?"
-      body="This page allows you to manage and track your selected courses. You can view course details, skill requirements, and rating information all in one place."
-      defaultExpanded={true}
-    />
+          <DescriptionPanel
+            heading="What is this page about?"
+            body="In this page you can select a skill type, which will take you to the next page where you can mark your familiarity with the skills and subskills related to the course."
+            defaultExpanded={true}
+          />
           <div className="details-screen">
             <div className="details-header">
               <h2 className="mb-4">Skill Types</h2>
@@ -180,7 +245,11 @@ export default function DisplaySelectedCourses() {
                 >
                   <div className="card-3d-block">
                     <h4>{item.type_label}</h4>
-                    <ProgressBar now={Math.floor(Math.random() * 100)} style={{ marginTop: '30px' }} />
+                    <ProgressBar now={ skillTypeProgresses[choosenCourse.course_id][item.type_label] || 0} 
+                    label ={`${ skillTypeProgresses[choosenCourse.course_id][item.type_label] || 0}%`}
+                    variant="success"
+                    style={{ marginTop: '30px' }} 
+                    />
                   </div>
                 </div>
               ))}
