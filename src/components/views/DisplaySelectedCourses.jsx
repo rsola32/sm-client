@@ -124,7 +124,7 @@ export default function DisplaySelectedCourses(iscreen) {
               );
               const data = await res.json();
               if (data) {
-                const totalSkills = data.yes + data.no + data.na;
+                const totalSkills = data.total;
                 const markedSkills = data.yes + data.no;
                 progresses[course.course_id] =
                   totalSkills > 0 ? Math.round((markedSkills / totalSkills) * 100) : 0;
@@ -149,7 +149,7 @@ export default function DisplaySelectedCourses(iscreen) {
                     const item = data[skillType];
                     console.log("Item:", item);
                     if (item) {  
-                      const total = item.yes + item.no + item.na;
+                      const total = item.total;
                       const marked = item.yes + item.no;
                       if (!typeProgresses[course.course_id]) typeProgresses[course.course_id] = {};
                         typeProgresses[course.course_id][item.skill_type] =
