@@ -7,8 +7,8 @@ import DescriptionPanel from './DescriptionPanel';
 import './Rating.css';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-import DisplaySelectedCourses from './views/DisplaySelectedCourses';
-
+import handleCourseClick from './views/DisplaySelectedCourses';
+import setScreen from './views/DisplaySelectedCourses';
 
 export default function Rating({ choosenCourse, choosenSkillType }) {
   const navigate = useNavigate();
@@ -16,14 +16,12 @@ export default function Rating({ choosenCourse, choosenSkillType }) {
   const [selectedCourse, setSelectedCourse] = useState(choosenCourse.course_name);
   const [selectedSkillType, setSelectedSkillType] = useState(choosenSkillType);
   const [selectedSkill, setSelectedSkill] = useState('');
-
+  const [animation, setAnimation] = useState('none');
   const [facultySubskillData, setFacultySubskillData] = useState([]);
   const [facultyRating, setFacultyRatingData] = useState([]);
   const [editedfacultySubskillData, setEditedfacultySubskillData] = useState([]);
   const [changedRatings, setChangedRatings] = useState({});
   const [empID, setEmpID] = useState('');
-  const [screen, setScreen] = useState('table');
-  const [animation, setAnimation] = useState('none');
   
 
   const initialFamiliaritiesRef = useRef({});
@@ -194,13 +192,12 @@ export default function Rating({ choosenCourse, choosenSkillType }) {
   };
 
   const handleBackClick = () => {
-    setAnimation('slide-right');
+    //setAnimation('slide-right');
     setTimeout(() => {
       //console.log("Back Button Clicked")
       window.location.href = '/rating/add';
-      setScreen('details');
-      handleCourseClick(selectedCourse);
-      
+      //navigate('/rating/add', { state: { screen: 'details' } });
+      //handleCourseClick(selectedCourse) //as it is not defined
     }, 300);
   };
 
@@ -250,7 +247,7 @@ export default function Rating({ choosenCourse, choosenSkillType }) {
         defaultExpanded={true}
       />
       
-      <button className="btn btn-outline-primary" onClick={handleBackClick}>Back</button>
+      <button className="btn btn-outline-primary" onClick={handleBackClick}>Back to Courses</button>
 
       <h3 className="mt-3">Mark the Familiarity</h3>
       <div className="container my-3">

@@ -77,7 +77,7 @@ function App() {
           <Route path="/faculty-mapping/view" element={<WorkInProgress />} />
 
           {/* Rating Routes */}
-          <Route path="/rating/add" element={<DisplaySelectedCourses/>} />
+          <Route path="/rating/add" element={<DisplaySelectedCourses iscreen="courses"/>} />
           <Route path="/rating/view" element={<WorkInProgress />} />
 
           {/* Report Routes */}

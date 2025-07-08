@@ -7,9 +7,9 @@ import HorizontalProgressBar from '../HorizontalProgressBar';
 import DescriptionPanel from '../DescriptionPanel';
 import './DisplaySelectedCourses.css';
 
-export default function DisplaySelectedCourses() {
+export default function DisplaySelectedCourses(iscreen) {
   const navigate = useNavigate();
-
+ 
   // State declarations
   const [courses, setCourses] = useState([]);
   const [choosenCourse, setChoosenCourse] = useState(null);
@@ -98,6 +98,7 @@ export default function DisplaySelectedCourses() {
       setAnimation('none');
     }, 300);
   };
+
 
   // Filter courses based on search term
   const filteredCourses = courses.filter((course) => {
