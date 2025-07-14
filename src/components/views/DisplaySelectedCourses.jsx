@@ -114,7 +114,7 @@ export default function DisplaySelectedCourses(iscreen) {
       const fetchProgresses = async () => {
         const progresses = {};
         const typeProgresses = {};
-        const skillTypes = [ 'Preskill', 'Tech/Core', 'Tool', 'Applied', 'Project' ];
+        const skillTypes = [ 'Preskill', 'Tech/Core', 'Tool', 'Applied', 'Project', 'Functional' ];
         await Promise.all(
           filteredCourses.map(async (course) => {
             try {
@@ -238,12 +238,15 @@ export default function DisplaySelectedCourses(iscreen) {
               </button>
             </div>
             <div className="details-grid">
-              {details.map((item, idx) => (
+              {details
+              .filter(item => choosenCourse.course_id !== "CAIA101")
+              .map((item, idx) => (
                 <div
                   className="detail-card"
                   key={idx}
                   onClick={() => handleSkillTypeClick(item.type_label)}
                 >
+
                   <div className="card-3d-block">
                     <h4>{item.type_label}</h4>
                     <ProgressBar now={ skillTypeProgresses[choosenCourse.course_id][item.type_label] || 0} 
