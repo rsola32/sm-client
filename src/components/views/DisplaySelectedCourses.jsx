@@ -21,7 +21,8 @@ export default function DisplaySelectedCourses(iscreen) {
   const [searchTerm, setSearchTerm] = useState('');
   const [courseProgresses, setCourseProgresses] = useState({});
   const [skillTypeProgresses, setSkillTypeProgresses] = useState({});
-
+  const [courseIndices, setCourseIndices] = useState({});
+  
   // Helper: retrieve a cookie by name
   const getCookie = (name) => {
     const value = `; ${document.cookie}`;
@@ -123,6 +124,7 @@ export default function DisplaySelectedCourses(iscreen) {
                 { credentials: 'include' }
               );
               const data = await res.json();
+              //courseIndices[course.course_id] = 10 || 0; // Store course index
               if (data) {
                 const totalSkills = data.total;
                 const markedSkills = data.yes + data.no;
@@ -133,6 +135,23 @@ export default function DisplaySelectedCourses(iscreen) {
               }
             } catch (error) {
               progresses[course.course_id] = 0;
+            }
+            try {
+              const res = await fetch(
+                `http://localhost:3000/api/course-index?employeeID=${empID}&courseID=${course.course_id}`,
+                { credentials: 'include' }
+              );
+              const data = await res.json();
+              var totalIndex = 0
+              if (data) {
+                data.forEach((item) => { 
+                  var index = item.yesCount / item.totalCount
+                  totalIndex += index;
+                })         
+              }
+              courseIndices[course.course_id] = (totalIndex / data.length * 100).toFixed(2) || 0; // Store course index
+            } catch (error) {
+              courseIndices[course.course_id] = 0; // Default to 0 if error occurs
             }
             if (empID && course.course_id) {
               try {
@@ -205,11 +224,12 @@ export default function DisplaySelectedCourses(iscreen) {
                   <div className="card-3d-block">
                     <h5>{course.course_name}</h5>
                     <p>Course ID: {course.course_id}</p>
+                    <p> Marking Completion : { courseProgresses[course.course_id] }% </p>
                     <ProgressBar
-                      now={ courseProgresses[course.course_id] || 0}
-                      label={`${ courseProgresses[course.course_id] || 0}%`}
-                      style={{ marginTop: '30px' }}
-                    />
+                      now={  courseIndices[course.course_id] || 0}
+                      label={`${  courseIndices[course.course_id] || 0}%`}
+                      style={{ marginTop: '10px' }}
+                    /> 
                   </div>
                 </div>
               ))}
