@@ -74,8 +74,6 @@ export default function Rating({ choosenCourse, choosenSkillType }) {
           rate => rate.subskill_id === item.subskill_id && rate.employee_id === item.employee_id
         );
         const familiarity = ratingEntry ? ratingEntry.familiarity : 'NA';
-        //const familiarity = ratingEntry && ratingEntry.familiarity !== 'NA'
-        //    ? ratingEntry.familiarity : 'NA';
         return { ...item, familiarity };
       });
       setEditedfacultySubskillData(updatedData);
