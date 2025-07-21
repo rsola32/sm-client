@@ -19,10 +19,10 @@ export default function DisplaySelectedCourses(iscreen) {
   const [animation, setAnimation] = useState('none');
   const [empID, setEmpID] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-  const [courseProgresses, setCourseProgresses] = useState({});
-  const [skillTypeProgresses, setSkillTypeProgresses] = useState({});
-  const [courseIndices, setCourseIndices] = useState({});
-  
+  const [courseCompletionProgresses, setCourseCompletionProgresses] = useState({});
+  const [courseFamiliarityIndices, setCourseFamiliarityIndices] = useState({});
+  const [skillTypeCompletionProgresses, setSkillTypeCompletionProgresses] = useState({});
+  const [skillTypeFamiliarityIndices, setSkillTypeFamiliarityIndices] = useState({});
   // Helper: retrieve a cookie by name
   const getCookie = (name) => {
     const value = `; ${document.cookie}`;
@@ -113,8 +113,9 @@ export default function DisplaySelectedCourses(iscreen) {
   useEffect(() => {
     if (empID && courses.length > 0) {
       const fetchProgresses = async () => {
-        const progresses = {};
-        const typeProgresses = {};
+        const completionProgresses = {};
+        const typeCompletionProgresses = {};
+        const typeFamiliarityIndices = {};
         const skillTypes = [ 'Preskill', 'Tech/Core', 'Tool', 'Applied', 'Project', 'Functional' ];
         await Promise.all(
           filteredCourses.map(async (course) => {
@@ -128,13 +129,13 @@ export default function DisplaySelectedCourses(iscreen) {
               if (data) {
                 const totalSkills = data.total;
                 const markedSkills = data.yes + data.no;
-                progresses[course.course_id] =
+                completionProgresses[course.course_id] =
                   totalSkills > 0 ? Math.round((markedSkills / totalSkills) * 100) : 0;
               } else {
-                progresses[course.course_id] = 0;
+                completionProgresses[course.course_id] = 0;
               }
             } catch (error) {
-              progresses[course.course_id] = 0;
+              completionProgresses[course.course_id] = 0;
             }
             try {
               const res = await fetch(
@@ -149,9 +150,9 @@ export default function DisplaySelectedCourses(iscreen) {
                   totalIndex += index;
                 })         
               }
-              courseIndices[course.course_id] = (totalIndex / data.length * 100).toFixed(2) || 0; // Store course index
+              courseFamiliarityIndices[course.course_id] = (totalIndex / data.length * 100).toFixed(2) || 0; // Store course index
             } catch (error) {
-              courseIndices[course.course_id] = 0; // Default to 0 if error occurs
+              courseFamiliarityIndices[course.course_id] = 0; // Default to 0 if error occurs
             }
             if (empID && course.course_id) {
               try {
@@ -170,9 +171,13 @@ export default function DisplaySelectedCourses(iscreen) {
                     if (item) {  
                       const total = item.total;
                       const marked = item.yes + item.no;
-                      if (!typeProgresses[course.course_id]) typeProgresses[course.course_id] = {};
-                        typeProgresses[course.course_id][item.skill_type] =
-                      total > 0 ? Math.round((marked / total) * 100) : 0;
+                      if (!typeCompletionProgresses[course.course_id]) typeCompletionProgresses[course.course_id] = {};
+                      if(!typeFamiliarityIndices[course.course_id]) typeFamiliarityIndices[course.course_id] = {};
+                        typeCompletionProgresses[course.course_id][item.skill_type] =
+                          total > 0 ? Math.round((marked / total) * 100) : 0;
+                        typeFamiliarityIndices[course.course_id][item.skill_type] =
+                          total > 0 ? Math.round((item.yes / total) * 100) : 0;
+                        
                     }
                   })                
               } catch (error) {
@@ -182,10 +187,11 @@ export default function DisplaySelectedCourses(iscreen) {
             }
           })
         );
-        setCourseProgresses(progresses);
-        setSkillTypeProgresses(typeProgresses);
+        setCourseCompletionProgresses(completionProgresses);
+        setSkillTypeCompletionProgresses(typeCompletionProgresses);
+        setSkillTypeFamiliarityIndices(typeFamiliarityIndices);
         //console.log("Course progresses:", progresses);
-        console.log("typeProgresses::",typeProgresses);
+        console.log("typeCompletionProgresses::",typeCompletionProgresses);
       };
       fetchProgresses();
     }
@@ -224,10 +230,10 @@ export default function DisplaySelectedCourses(iscreen) {
                   <div className="card-3d-block">
                     <h5>{course.course_name}</h5>
                     <p>Course ID: {course.course_id}</p>
-                    <p> Marking Completion : { courseProgresses[course.course_id] }% </p>
+                    <p> Marking Completion : { courseCompletionProgresses[course.course_id] }% </p>
                     <ProgressBar
-                      now={  courseIndices[course.course_id] || 0}
-                      label={`${  courseIndices[course.course_id] || 0}%`}
+                      now={  courseFamiliarityIndices[course.course_id] || 0}
+                      label={`${  courseFamiliarityIndices[course.course_id] || 0}%`}
                       style={{ marginTop: '10px' }}
                     /> 
                   </div>
@@ -269,8 +275,9 @@ export default function DisplaySelectedCourses(iscreen) {
 
                   <div className="card-3d-block">
                     <h4>{item.type_label}</h4>
-                    <ProgressBar now={ skillTypeProgresses[choosenCourse.course_id][item.type_label] || 0} 
-                    label ={`${ skillTypeProgresses[choosenCourse.course_id][item.type_label] || 0}%`}
+                    <h4> Completion : { skillTypeCompletionProgresses[choosenCourse.course_id][item.type_label] || 0}% </h4>
+                    <ProgressBar now={ skillTypeFamiliarityIndices[choosenCourse.course_id][item.type_label] || 0}
+                    label ={`${ skillTypeFamiliarityIndices[choosenCourse.course_id][item.type_label] || 0}%`}
                     variant="success"
                     style={{ marginTop: '30px' }} 
                     />
