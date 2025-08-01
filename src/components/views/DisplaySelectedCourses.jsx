@@ -146,11 +146,14 @@ export default function DisplaySelectedCourses(iscreen) {
               var totalIndex = 0
               if (data) {
                 data.forEach((item) => { 
-                  var index = item.yesCount / item.totalCount
+                  var index = item.yesCount / item.totalCount || 0
                   totalIndex += index;
-                })         
-              }
-              courseFamiliarityIndices[course.course_id] = (totalIndex / data.length * 100).toFixed(2) || 0; // Store course index
+                })        
+                courseFamiliarityIndices[course.course_id] = data.length > 0 ? (totalIndex / data.length * 100).toFixed(2) : 0; // Store course index 
+                //console.log("Course familiarity index for", course.course_id, ":", courseFamiliarityIndices[course.course_id], totalIndex, data.length);
+              }     
+              else
+                courseFamiliarityIndices[course.course_id] = 0; // Default to 0 if no data         
             } catch (error) {
               courseFamiliarityIndices[course.course_id] = 0; // Default to 0 if error occurs
             }
@@ -199,6 +202,7 @@ export default function DisplaySelectedCourses(iscreen) {
 
   return (
     <div className="display-courses-container">
+     <a href="/home" className="btn btn-primary"> Home </a>
 
       <div className="course-transition-container {`${animation}`}">
         {screen === 'courses' && (
@@ -219,7 +223,7 @@ export default function DisplaySelectedCourses(iscreen) {
           <div className="courses-screen">
             <h2 className="mb-4">Dashboard</h2>
                   
-                </div>
+            </div>
             <div className="courses-grid">
               {filteredCourses.map((course) => (
                 <div

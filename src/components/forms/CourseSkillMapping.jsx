@@ -187,6 +187,7 @@ export default function CourseSkillMapping() {
 
   return (
     <>
+    <a href="/home" className="btn btn-primary"> Home </a>
     <HorizontalProgressBar/>
       {showSkillMappingForm && <div className="container py-5">
         <h2 className="text-center mb-4">Course-Skill Mapping</h2>

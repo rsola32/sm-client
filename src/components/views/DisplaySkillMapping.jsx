@@ -68,7 +68,7 @@ export default function DisplaySkillMapping() {
                 body={description}
                 defaultExpanded={true}
               />
-
+                <a href="/home" className="btn btn-primary"> Home </a>
                 {/* Universal Search */}
                 <div className="row mb-4">
                     <div className="col-sm-6 col-md-4">
@@ -82,7 +82,7 @@ export default function DisplaySkillMapping() {
                         />
                     </div>
                 </div>
-
+                
                 {/* Filter Controls */}
                 <div className="row g-3 mb-3">
                     {/* Course Name Filter */}

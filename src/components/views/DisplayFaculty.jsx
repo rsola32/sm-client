@@ -88,6 +88,7 @@ export default function DisplayFaculty() {
 
   return (
     <>
+    <a href="/home" className="btn btn-primary"> Home </a>
     <div className="container my-4">
       <h2 className="mb-4">Faculty Details</h2>
       <DescriptionPanel

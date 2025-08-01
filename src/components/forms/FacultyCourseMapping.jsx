@@ -156,6 +156,8 @@ export default function FacultyCourseMapping() {
 
   return (
     <>
+    <a href="/home" className="btn btn-primary"> Home </a>
+
     { !submitStatus && <div className="container py-5">
       <h2 className="mb-4">Faculty-Course Mapping</h2>
       <div className="card mx-auto shadow gitam-form">

@@ -34,9 +34,9 @@ export default function Login() {
           console.log('Entering home page');
           //setCookie('token',employeeId);
           //window.location.href = '/rating/add';
-          navigate('/rating/add'); // or any protected route
-          //window.location.href = '/home'; // Redirect to home or any other page
-          //navigate('/home'); // Redirect to home or any other page
+          //navigate('/rating/add'); // or any protected route
+          window.location.href = '/home'; // Redirect to home or any other page
+          navigate('/home'); // Redirect to home or any other page
         }, 1000);
       } else {
         const errorData = await response.json();

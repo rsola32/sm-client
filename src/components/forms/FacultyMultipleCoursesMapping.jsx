@@ -92,6 +92,7 @@ export default function FacultyMultipleCoursesMapping() {
 
   return (
     <>
+      <a href="/home" className="btn btn-primary"> Home </a>
       <HorizontalProgressBar 
         currentStep={2} 
         totalSteps={3} 

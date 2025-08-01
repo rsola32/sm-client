@@ -63,6 +63,7 @@ function CourseForm() {
 
   return (
     <>
+    <a href="/home" className="btn btn-primary"> Home </a>
     <div style={{ marginTop: '70px' }}>
     {/* <div className="container d-flex justify-content-center align-items-center vh-100"> */}
     { visibility && <div className="card shadow-sm gitam-form">

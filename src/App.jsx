@@ -30,6 +30,8 @@ import RolesFlowChart from './components/workTracking/RolesFlowChart';
 import HorizontalProgressBar from './components/HorizontalProgressBar';
 import DescriptionPanel from './components/DescriptionPanel';
 import IndexChart from './components/views/IndexChart';
+import FacultyReportCourseWise from './components/reports/FacultyReportCourses';
+import FacultyReportCourseWiseSkills from './components/reports/FacultyReportSkills';
 import Report from './components/views/Report';
 
 function App() {
@@ -48,8 +50,8 @@ function App() {
           <Route path="/home" element={<Navigation/>} />
 
           {/* Campus Routes */}
-          <Route path="/campus/add" element={<WorkInProgress />} />
-          <Route path="/campus/view" element={<WorkInProgress />} />
+          <Route path="/csd/add" element={<WorkInProgress />} />
+          <Route path="/csd/view" element={<WorkInProgress />} />
 
           {/* Faculty Routes */}
           <Route path="/faculty/add" element={<FacultyForm />} />
@@ -68,22 +70,26 @@ function App() {
           <Route path="/subskill/view" element={<DisplayCourseSubskillMapping />} />
 
           {/* Skill Mapping Routes */}
-          <Route path="/skill-mapping/add" element={<CourseSkillMapping />} />
-          <Route path="/skill-mapping/view" element={<DisplaySkillMapping />} />
+          <Route path="/course-skill-mapping/add" element={<CourseSkillMapping />} />
+          <Route path="/course-skill-mapping/view" element={<DisplaySkillMapping />} />
 
           {/* Faculty Mapping Routes */}
-          <Route path="/faculty-mapping/add-single-course" element={<FacultyCourseMapping />} />
-          <Route path="/faculty-mapping/add-multiple-courses" element={<FacultyMultipleCoursesMapping/>} />
-          <Route path="/faculty-mapping/view" element={<WorkInProgress />} />
+          <Route path="/course-faculty-mapping/add-single-course" element={<FacultyCourseMapping />} />
+          <Route path="/course-faculty-mapping/add-multiple-courses" element={<FacultyMultipleCoursesMapping/>} />
+          <Route path="/course-faculty-mapping/view" element={<DisplaySelectedCourses iscreen="courses"/>} />
 
           {/* Rating Routes */}
+          <Route path="/rating/view" element={<DisplaySelectedCourses iscreen="courses"/>} />
           <Route path="/rating/add" element={<DisplaySelectedCourses iscreen="courses"/>} />
-          <Route path="/rating/view" element={<WorkInProgress />} />
+          
+          {/* Report Routes */}
+          <Route path="/freport/courses" element={<FacultyReportCourseWise />} />
+          <Route path="/freport/skills" element={<FacultyReportCourseWiseSkills />} />
 
           {/* Report Routes */}
-          <Route path="/report/courses" element={<Report/>} />
-          <Route path="/report/skill-types" element={<DisplaySelectedCourses/>} />
-          <Route path="/report/skill" element={<DisplaySelectedCourses/>} />
+          <Route path="/report/courses" element={<WorkInProgress />} />
+          <Route path="/report/faculty" element={<WorkInProgress />} />
+          <Route path="/report/skills" element={<WorkInProgress />} />
 
 {/* Pie Chart */}
           <Route path="/piechart" element={<IndexChart  

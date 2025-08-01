@@ -6,6 +6,9 @@ export default function WorkInProgress() {
   return (
     <div>
       <h1>This Page will soon be available</h1>
-    </div>
+      <a href="/home" className="btn btn-primary">
+        Home  
+      </a>
+    </div>    
   )
 }

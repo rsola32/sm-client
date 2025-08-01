@@ -58,6 +58,7 @@ export default function DisplayCourses() {
 
   return (
     <>
+    <a href="/home" className="btn btn-primary"> Home </a>
     <div className="container my-4">
       <h2 className="mb-4">Course Details</h2>
 

@@ -4,7 +4,7 @@ import '../GitamBrand.css'
 import '../AllPages.css'
 
 export default function FacultyForm() {
-    const [employeeId, setEmployeeId] = useState('');
+  const [employeeId, setEmployeeId] = useState('');
   const [employeeName, setEmployeeName] = useState('');
   const [mailId, setMailId] = useState('');
   const [designation, setDesignation] = useState('');
@@ -58,6 +58,7 @@ export default function FacultyForm() {
 
   return (
     <>
+   
     <div className='top-div-space'>
     <div className="container d-flex justify-content-center align-items-center vh-100">
       <div className="card shadow gitam-form">
@@ -175,6 +176,7 @@ export default function FacultyForm() {
       </div>
     </div>
     </div>
+    
     </>
   )
 }
