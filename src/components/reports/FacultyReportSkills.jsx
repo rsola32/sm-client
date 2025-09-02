@@ -66,7 +66,11 @@ export default function FacultyReportCourseWiseSkills() {
                 if (data) {
                     data.forEach((item) => {
                         const index = item.yesCount / item.totalCount || 0;
-                        indices[item.skill_id] = index.toFixed(2);
+                        indices[item.skill_id] = { 
+                            "skill_type": item.skill_type,
+                            "skill_name": item.skill_name,
+                            "index" : index.toFixed(2) 
+                        };
                         totalIndex += index;
                     });
                     setSkillIndices(indices);  
@@ -111,16 +115,20 @@ export default function FacultyReportCourseWiseSkills() {
                     <table className="table table-striped">     
                         <thead>
                             <tr>
-                                <th>Skill ID</th>
+                                <th>Skill Type</th>
+                                <th>Skill ID </th>
+                                <th>Skill Name</th>
                                 <th>Index</th>
                             </tr>
                         </thead>
                         <tbody>
                             { Object.entries(skillIndices).length > 0 ? 
-                              ( Object.entries(skillIndices).map(([skillID, index]) => (
+                              ( Object.entries(skillIndices).map(([skillID, entry]) => (
                                 <tr key={skillID}>
+                                    <td>{entry.skill_type}</td>
                                     <td>{skillID}</td>
-                                    <td>{index}</td>
+                                    <td>{entry.skill_name}</td>
+                                    <td>{entry.index}</td>
                                 </tr>
                             ))
                             ) : (  <tr>
