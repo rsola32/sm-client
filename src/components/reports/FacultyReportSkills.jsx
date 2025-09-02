@@ -86,9 +86,9 @@ export default function FacultyReportCourseWiseSkills() {
     return (
         <>
             <DescriptionPanel
-                        title="Faculty Report - Course Wise Skills & Familiarity"
-                        body="This report displays the skill familiarity associated with the selected course."
-                        defaultExpanded={true}
+                title="Faculty Report - Course Wise Skills & Familiarity"
+                body="This report displays the skill familiarity associated with the selected course."
+                defaultExpanded={true}
             />  
             <div className="col-sm-6 col-md-3">
                 <label htmlFor="courseFilter" className="form-label">
@@ -115,20 +115,20 @@ export default function FacultyReportCourseWiseSkills() {
                     <table className="table table-striped">     
                         <thead>
                             <tr>
-                                <th>Skill Type</th>
-                                <th>Skill ID </th>
-                                <th>Skill Name</th>
-                                <th>Index</th>
+                                <th className="text-start">Skill Type</th>
+                                <th className="text-start">Skill ID</th>
+                                <th className="text-start">Skill Name</th>
+                                <th className="text-start">Index</th>
                             </tr>
                         </thead>
                         <tbody>
                             { Object.entries(skillIndices).length > 0 ? 
                               ( Object.entries(skillIndices).map(([skillID, entry]) => (
                                 <tr key={skillID}>
-                                    <td>{entry.skill_type}</td>
-                                    <td>{skillID}</td>
-                                    <td>{entry.skill_name}</td>
-                                    <td>{entry.index}</td>
+                                    <td className="text-start">{entry.skill_type}</td>
+                                    <td className="text-start">{skillID}</td>
+                                    <td className="text-start">{entry.skill_name}</td>
+                                    <td className="text-start">{entry.index}</td>
                                 </tr>
                             ))
                             ) : (  <tr>
